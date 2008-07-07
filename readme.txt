@@ -4,7 +4,7 @@ Donate link: http://yoast.com/donate/
 Tags: SEO, permalinks
 Requires at least: 2.0
 Tested up to: 2.5.1
-stable tag: 0.1
+stable tag: 0.2
 
 Gives a simple mailto: link below a post for logged in admins, to email all commenters on a post.
 

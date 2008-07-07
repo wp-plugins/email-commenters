@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Email commenters
-Version: 0.1
+Version: 0.2
 Plugin URI: http://yoast.com/wordpress/email-commenters/
 Description: Gives a simple mailto: link below a post for logged in admins, to email all commenters on a post.
 Author: Joost de Valk
@@ -27,11 +27,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 function add_mailto_commenters_link($content) {
 	if (is_single() && current_user_can('edit_users')) {
 		global $wpdb, $post;
-		$query = "SELECT DISTINCT comment_author, comment_author_email FROM $wpdb->comments WHERE comment_approved = '1' AND comment_post_ID = ".$post->ID;
+		$query = "SELECT DISTINCT comment_author, comment_author_email FROM $wpdb->comments WHERE comment_type = '' AND comment_approved = '1' AND comment_post_ID = ".$post->ID;
 		$results = $wpdb->get_results($query);
 		$content .= '<p><a href="mailto:';
 		foreach ($results as $comment) {
-			$content .= $comment->comment_author." &lt;".$comment->comment_author_email."&gt;, ";
+			$email = urlencode($comment->comment_author." <".$comment->comment_author_email.">,");
+			$content .= str_replace("+"," ",$email);
 		}
 		$content .= '">Mail the commenters on this post</a></p>';
 	}
